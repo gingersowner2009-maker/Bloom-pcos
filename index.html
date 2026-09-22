@@ -129,7 +129,7 @@ function nav(id){document.querySelectorAll('.screen').forEach(x=>x.classList.rem
 document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>nav(b.dataset.go));
 function render(){
 calOut.textContent=state.cal;proOut.textContent=state.protein+'g';waterOut.textContent=state.water+'L';weightOut.textContent=state.weight;
-let lostNow=Math.max(0,300-state.weight), remaining=Math.max(0,state.weight-200), pct=Math.max(0,Math.min(100,(100-lostNow)/100*100));
+let lostNow=Math.max(0,300-state.weight), remaining=Math.max(0,state.weight-200), pct=Math.max(0,Math.min(100,(lostNow/100)*100));
 goalWeightOut.textContent=state.weight.toFixed(1).replace('.0',''); lostOut.textContent=lostNow.toFixed(1).replace('.0',''); remainOut.textContent=remaining.toFixed(1).replace('.0',''); goalPct.textContent=Math.round(pct)+'% complete'; goalBar.style.width=pct+'%'; moveOut.textContent=state.move+'/'+state.moveGoal;
 workoutStatus.textContent=state.workoutDone?'Completed ✓':'Not started'; workoutBtn.textContent=state.workoutDone?'Workout completed ✓':'Mark workout complete';
 let hb=state.habits.map((h,i)=>`<div class="item row"><input class="check" type="checkbox" ${state.done.includes(i)?'checked':''} onchange="toggleHabit(${i})"><span>${h}</span></div>`).join('');
