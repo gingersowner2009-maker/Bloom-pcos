@@ -157,7 +157,6 @@ function saveSleep(){state.routine[0][0]=bed.value;state.routine[1][0]=wake.valu
 function savePCOS(){state.pcos.Notes=pcosNotes.value;save()}
 function addWeight(){let w=+newWeight.value;if(!w)return;state.weight=w;state.weights.push({date:new Date().toLocaleDateString(),weight:w});newWeight.value='';save()}
 const mealSets=[
-[
 {b:'Greek yogurt parfait + berries + oats',l:'Chicken rice bowl + mixed vegetables',d:'Turkey tacos + lettuce, tomato & salsa',s:'Apple + peanut butter',cal:1940,pro:134},
 {b:'2 eggs + whole-grain toast + fruit',l:'Turkey sandwich + veggie soup',d:'Chicken pasta + broccoli',s:'Greek yogurt + berries',cal:1980,pro:132},
 {b:'Protein oatmeal + banana + peanut butter',l:'Chicken wraps + crunchy vegetables',d:'Beef & bean chili + rice',s:'Cottage cheese + fruit',cal:2000,pro:136},
