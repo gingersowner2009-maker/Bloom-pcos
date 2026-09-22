@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6e9ee">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Bloom">
+<title>Bloom — PCOS Wellness</title>
+<style>
+:root{--pink:#d98fa8;--rose:#b96886;--sage:#8aa58d;--cream:#fffaf7;--ink:#44383d;--muted:#85777d;--card:#fff;--line:#eadde2;--shadow:0 8px 24px #8c667015}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(160deg,#fff8fa,#f5f0e9);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:86px}
+header{padding:calc(18px + env(safe-area-inset-top)) 18px 16px;background:#fff8fbcc;backdrop-filter:blur(12px);position:sticky;top:0;z-index:5;border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:25px}.sub{color:var(--muted);font-size:13px;margin-top:3px}
+main{max-width:720px;margin:auto;padding:16px}.screen{display:none}.screen.active{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.metric{padding:14px;border-radius:16px;background:#fff4f7}.metric b{font-size:22px;display:block}.metric span{font-size:12px;color:var(--muted)}
+h2{font-size:18px;margin:4px 0 12px}h3{font-size:15px;margin:0 0 8px}
+button,input,select,textarea{font:inherit}button{border:0;border-radius:14px;padding:11px 14px;background:var(--pink);color:white;font-weight:700;cursor:pointer}
+button.secondary{background:#f2e8ec;color:var(--rose)}button.small{padding:7px 10px;font-size:12px}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.between{justify-content:space-between}
+input,select,textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+label{font-size:12px;color:var(--muted);display:block;margin:8px 0 4px}
+.progress{height:10px;background:#f0e6e9;border-radius:99px;overflow:hidden}.bar{height:100%;background:linear-gradient(90deg,var(--pink),var(--rose));width:0}
+.item{padding:12px 0;border-bottom:1px solid #f0e7ea}.item:last-child{border-bottom:0}
+.check{width:22px;height:22px;accent-color:var(--rose)}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fffdfdEE;backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;justify-content:center;z-index:10;padding:8px 6px calc(8px + env(safe-area-inset-bottom))}
+nav button{background:transparent;color:var(--muted);font-size:11px;padding:7px 9px;flex:1;max-width:120px}nav button.active{color:var(--rose);background:#faeef2}
+.flower{font-size:28px}.pill{display:inline-block;padding:5px 9px;border-radius:99px;background:#edf4ee;color:#58735d;font-size:11px}
+canvas{width:100%;height:190px;background:#fffafa;border-radius:16px}
+.meal{background:#fff7f3;border-radius:14px;padding:12px;margin:8px 0}.meal b{display:block}
+textarea{min-height:80px;resize:vertical}
+.install{background:#f8eef2;border-radius:14px;padding:11px;font-size:13px;color:#6f5961;margin-top:10px}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header><div class="row between"><div><h1>🌸 Bloom</h1><div class="sub">PCOS Wellness & Transformation</div></div><span class="flower">🌷</span></div></header>
+
+<main>
+<section id="home" class="screen active">
+<div class="card"><h2>Good day, Bloom 🌸</h2><div class="sub">Your plan is saved on this phone.</div><div class="install">To install: open this page in Safari → Share → <b>Add to Home Screen</b>.</div></div>
+<div class="grid">
+<div class="metric"><b id="calOut">0</b><span>calories / 2,000</span></div>
+<div class="metric"><b id="proOut">0g</b><span>protein / 130g</span></div>
+<div class="metric"><b id="waterOut">0L</b><span>water / 1L</span></div>
+<div class="metric"><b id="weightOut">300</b><span>current weight lb</span></div>
+</div>
+<div class="card"><h2>Today’s habits</h2><div id="habitHome"></div></div>
+<div class="card"><h2>Today’s routine</h2><div id="routineHome"></div></div>
+</section>
+
+<section id="meals" class="screen">
+<div class="card"><div class="row between"><h2>Weekly meal generator</h2><button onclick="generateMeals()">Generate</button></div><div class="sub">Budget-friendly, family-friendly and fish/seafood/tofu-free.</div><div id="mealsList"></div></div>
+<div class="card"><h2>Food tracker</h2><label>Calories eaten</label><input id="cal" type="number" min="0" placeholder="e.g. 500"><label>Protein grams</label><input id="protein" type="number" min="0" placeholder="e.g. 30"><button onclick="saveFood()">Save today</button></div>
+</section>
+
+<section id="fitness" class="screen">
+<div class="card"><h2>7-day workout plan</h2><div id="workouts"></div></div>
+<div class="card"><h2>Daily movement</h2><div class="sub">Choose an amount that fits your energy and schedule. Rest is allowed.</div><label>Minutes today</label><input id="move" type="number" min="0"><button onclick="saveMove()">Save movement</button></div>
+</section>
+
+<section id="habits" class="screen">
+<div class="card"><h2>Habit tracker</h2><div id="habits"></div></div>
+<div class="card"><h2>Edit habits</h2><textarea id="habitEdit"></textarea><button onclick="saveHabits()">Save habits</button></div>
+</section>
+
+<section id="routine" class="screen">
+<div class="card"><div class="row between"><h2>Editable schedule</h2><button onclick="addRoutine()">Add</button></div><div id="routine"></div></div>
+<div class="card"><h2>Sleep</h2><div class="grid"><div><label>Bedtime</label><input id="bed" type="time" value="05:30"></div><div><label>Wake time</label><input id="wake" type="time" value="08:00"></div></div><button onclick="saveSleep()">Save sleep</button></div>
+</section>
+
+<section id="pcos" class="screen">
+<div class="card"><h2>PCOS check-in 🌿</h2><div class="sub">Track symptoms for your own records. This is not a diagnosis.</div>
+<div id="symptoms"></div><label>Notes</label><textarea id="pcosNotes" placeholder="Energy, cycle notes, symptoms..."></textarea><button onclick="savePCOS()">Save check-in</button></div>
+</section>
+
+<section id="progress" class="screen">
+<div class="card"><h2>Progress</h2><div class="grid"><div class="metric"><b>200</b><span>goal weight lb</span></div><div class="metric"><b id="lost">0</b><span>lb logged lost</span></div></div></div>
+<div class="card"><h2>Weight log</h2><div class="row"><input id="newWeight" type="number" step="0.1" placeholder="Weight lb"><button onclick="addWeight()">Add</button></div><div id="weightLog"></div></div>
+<div class="card"><h2>Weight trend</h2><canvas id="chart" width="640" height="190"></canvas></div>
+</section>
+</main>
+
+<nav>
+<button data-go="home" class="active">🏠<br>Home</button>
+<button data-go="meals">🥗<br>Meals</button>
+<button data-go="fitness">🏃<br>Fitness</button>
+<button data-go="habits">✓<br>Habits</button>
+<button data-go="routine">🗓️<br>Routine</button>
+<button data-go="pcos">🌿<br>PCOS</button>
+<button data-go="progress">📈<br>Progress</button>
+</nav>
+
+<script>
+const KEY='bloom-v2';
+let state=JSON.parse(localStorage.getItem(KEY)||'null')||{
+cal:0,protein:0,water:0,weight:300,move:0,
+habits:['Drink water','Eat protein','Take a walk','Take medications/supplements as prescribed','Wind down before sleep','Kind self-talk'],
+done:[],routine:[
+['05:30','Wind down / sleep'],['08:00','Wake + water'],['08:15','Breakfast + protein'],
+['09:00','Work / home priorities'],['13:00','Lunch + short walk'],['18:00','Dinner + family time'],['21:30','Prep tomorrow'],['22:00','Gentle movement / relax']
+],weights:[],pcos:{Bloating:false,Energy:false,Cravings:false,Sleep:false,'Cycle symptoms':false,Notes:''},
+meals:[]
+};
+function save(){localStorage.setItem(KEY,JSON.stringify(state));render()}
+function nav(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.toggle('active',x.dataset.go===id));if(id==='progress')drawChart()}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>nav(b.dataset.go));
+function render(){
+calOut.textContent=state.cal;proOut.textContent=state.protein+'g';waterOut.textContent=state.water+'L';weightOut.textContent=state.weight;
+let hb=state.habits.map((h,i)=>`<div class="item row"><input class="check" type="checkbox" ${state.done.includes(i)?'checked':''} onchange="toggleHabit(${i})"><span>${h}</span></div>`).join('');
+habits.innerHTML=hb;habitHome.innerHTML=hb;
+habitEdit.value=state.habits.join('\n');
+routine.innerHTML=state.routine.map((r,i)=>`<div class="item row"><input style="max-width:100px" type="time" value="${r[0]}" onchange="state.routine[${i}][0]=this.value;save()"><input value="${r[1]}" onchange="state.routine[${i}][1]=this.value;save()"><button class="secondary small" onclick="state.routine.splice(${i},1);save()">×</button></div>`).join('');
+routineHome.innerHTML=state.routine.slice(0,5).map(r=>`<div class="item"><b>${r[0]}</b> ${r[1]}</div>`).join('');
+workouts.innerHTML=['Full-body beginner strength','Low-impact walk + mobility','Lower-body strength','Gentle cardio','Upper-body + core','Long easy walk / active family time','Recovery stretching'].map((x,i)=>`<div class="item"><b>Day ${i+1}</b> — ${x}<br><span class="sub">Start with 10–30 minutes and adjust to your energy.</span></div>`).join('');
+symptoms.innerHTML=Object.keys(state.pcos).filter(k=>k!=='Notes').map(k=>`<div class="item row"><input class="check" type="checkbox" ${state.pcos[k]?'checked':''} onchange="state.pcos['${k}']=this.checked;save()"><span>${k}</span></div>`).join('');
+pcosNotes.value=state.pcos.Notes||'';
+weightLog.innerHTML=state.weights.slice(-10).reverse().map(w=>`<div class="item row between"><span>${w.date}</span><b>${w.weight} lb</b></div>`).join('');
+lost.textContent=Math.max(0,(300-(state.weights.at(-1)?.weight||state.weight))).toFixed(1);
+if(!state.meals.length)generateMeals(false); else mealsList.innerHTML=state.meals.map((m,i)=>`<div class="meal"><b>Day ${i+1}</b>${m.map(x=>`<div>${x}</div>`).join('')}</div>`).join('');
+}
+function toggleHabit(i){let p=state.done.indexOf(i);p>=0?state.done.splice(p,1):state.done.push(i);save()}
+function saveFood(){state.cal=+cal.value||0;state.protein=+protein.value||0;save()}
+function saveMove(){state.move=+move.value||0;save()}
+function saveHabits(){state.habits=habitEdit.value.split('\n').map(x=>x.trim()).filter(Boolean);state.done=[];save()}
+function addRoutine(){state.routine.push(['12:00','New activity']);save()}
+function saveSleep(){state.routine[0][0]=bed.value;state.routine[1][0]=wake.value;save()}
+function savePCOS(){state.pcos.Notes=pcosNotes.value;save()}
+function addWeight(){let w=+newWeight.value;if(!w)return;state.weight=w;state.weights.push({date:new Date().toLocaleDateString(),weight:w});newWeight.value='';save()}
+const mealSets=[
+['Greek yogurt + berries + oats','Chicken rice bowls + vegetables','Turkey tacos + salad'],
+['Eggs + whole-grain toast + fruit','Turkey sandwich + veggie soup','Chicken pasta + broccoli'],
+['Oatmeal + peanut butter + banana','Chicken wraps + vegetables','Beef & bean chili + rice'],
+['Egg breakfast burrito + fruit','Leftover chili + salad','Sheet-pan chicken + potatoes + carrots'],
+['Greek yogurt parfait + boiled egg','Tuna-free chicken salad wrap','Turkey burgers + roasted vegetables'],
+['Oatmeal + berries + yogurt','Chicken noodle soup + toast','Beef stir-fry + rice'],
+['Eggs + toast + fruit','Bean & chicken burrito bowl','Slow-cooker chicken + potatoes + vegetables']
+];
+function generateMeals(doSave=true){state.meals=mealSets.map(x=>x);if(doSave)save();else mealsList.innerHTML=state.meals.map((m,i)=>`<div class="meal"><b>Day ${i+1}</b>${m.map(x=>`<div>${x}</div>`).join('')}</div>`).join('')}
+function drawChart(){
+const c=document.getElementById('chart'),ctx=c.getContext('2d'),d=state.weights.slice(-12);ctx.clearRect(0,0,c.width,c.height);
+ctx.strokeStyle='#eadde2';ctx.beginPath();ctx.moveTo(35,15);ctx.lineTo(35,165);ctx.lineTo(620,165);ctx.stroke();
+if(d.length<2){ctx.fillStyle='#85777d';ctx.font='15px sans-serif';ctx.fillText('Add at least 2 weigh-ins to see your trend.',55,90);return}
+let min=Math.min(...d.map(x=>x.weight))-3,max=Math.max(...d.map(x=>x.weight))+3;
+ctx.strokeStyle='#b96886';ctx.lineWidth=4;ctx.beginPath();d.forEach((p,i)=>{let x=45+i*560/(d.length-1),y=155-(p.weight-min)*125/(max-min);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke();
+ctx.fillStyle='#b96886';d.forEach((p,i)=>{let x=45+i*560/(d.length-1),y=155-(p.weight-min)*125/(max-min);ctx.beginPath();ctx.arc(x,y,5,0,Math.PI*2);ctx.fill()})
+}
+render();
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(()=>{});}</script></body>
+</html>
